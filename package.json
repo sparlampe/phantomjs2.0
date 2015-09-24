@@ -1,20 +1,21 @@
 {
   "name": "phantomjs2.0",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "phantomjs",
     "phantomjs2",
+    "phantomjs2.0",
     "centos7",
-    "OSX",
-    "Ubuntu",
+    "ubuntu",
+    "osx",
     "headless",
     "webkit"
   ],
   "description": "Headless WebKit with JS API",
-  "homepage": "https://github.com/laughingMan/phantomjs2",
+  "homepage": "https://github.com/laughingMan/phantomjs2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/laughingMan/phantomjs2.git"
+    "url": "git://github.com/laughingMan/phantomjs2.0.git"
   },
   "licenses": [
     {
@@ -47,7 +48,7 @@
     "nodeunit": "0.9.0"
   },
   "bugs": {
-    "url": "https://github.com/laughingMan/phantomjs2/issues"
+    "url": "https://github.com/laughingMan/phantomjs2.0/issues"
   },
   "directories": {
     "test": "test"

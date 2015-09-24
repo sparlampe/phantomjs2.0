@@ -144,7 +144,6 @@ Authors (original)
 [The Obvious Corporation](http://obvious.com/).
 
 Originally ported to phantomjs2 by [zeevl](https://github.com/zeevl)
-Newly Ported to phantomjs2.0 by [laughingman](https://github.com/laughingman)
 
 License
 -------
