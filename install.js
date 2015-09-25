@@ -63,6 +63,7 @@ var whichDeferred = kew.defer()
 which('phantomjs', whichDeferred.makeNodeResolver())
 whichDeferred.promise
   .then(function (result) {
+    console.log("log 1");
     phantomPath = result
 
     // Horrible hack to avoid problems during global install. We check to see if
@@ -83,6 +84,7 @@ whichDeferred.promise
     }
   })
   .then(function (stdout) {
+    console.log("log 2");
     var version = stdout.trim()
     if (helper.version == version) {
       writeLocationFile(phantomPath);
@@ -95,6 +97,7 @@ whichDeferred.promise
     }
   })
   .fail(function (err) {
+    console.log("log fail 1");
     // Trying to use a local file failed, so initiate download and install
     // steps instead.
     var npmconfDeferred = kew.defer()
@@ -102,6 +105,7 @@ whichDeferred.promise
     return npmconfDeferred.promise
   })
   .then(function (conf) {
+    console.log("log 3");
     var deferred = kew.defer()
 
     // Can't use a global version so start a download.
@@ -137,6 +141,7 @@ whichDeferred.promise
     }
   })
   .then(function (conf) {
+    console.log("log 4");
     var fileName = downloadUrl.split('/').pop()
     tmpPath = findSuitableTempDirectory(conf)
     var downloadedFile = path.join(tmpPath, fileName)
@@ -152,12 +157,15 @@ whichDeferred.promise
     }
   })
   .then(function (downloadedFile) {
+    console.log("log 5");
     return extractDownload(downloadedFile)
   })
   .then(function (extractedPath) {
+    console.log("log 6");
     return copyIntoPlace(extractedPath, pkgPath)
   })
   .then(function () {
+    console.log("log 7");
     var location = process.platform === 'win32' ?
         path.join(pkgPath, 'phantomjs.exe') :
         path.join(pkgPath, 'bin' ,'phantomjs')
@@ -171,12 +179,14 @@ whichDeferred.promise
     exit(0)
   })
   .fail(function (err) {
+    console.log("log fail 2");
     console.error('Phantom installation failed', err, err.stack)
     exit(1)
   })
 
 
 function writeLocationFile(location) {
+  console.log("log func 1");
   console.log('Writing location.js file')
   if (process.platform === 'win32') {
     location = location.replace(/\\/g, '\\\\')
@@ -193,6 +203,7 @@ function exit(code) {
 
 
 function findSuitableTempDirectory(npmConf) {
+  console.log("log func 2");
   var now = Date.now()
   var candidateTmpDirs = [
     process.env.TEMP || process.env.TMPDIR || npmConf.get('tmp'),
@@ -225,6 +236,7 @@ function findSuitableTempDirectory(npmConf) {
 
 
 function getRequestOptions(conf) {
+  console.log("log func 3");
   var options = {
     uri: downloadUrl,
     encoding: null, // Get response as a buffer
@@ -256,6 +268,7 @@ function getRequestOptions(conf) {
 
 
 function requestBinary(requestOptions, filePath) {
+  console.log("log func 4.0");
   var deferred = kew.defer()
 
   var count = 0
@@ -295,6 +308,7 @@ function requestBinary(requestOptions, filePath) {
       exit(1)
     }
   })).on('progress', function (state) {
+    console.log("log func 4.1");
     if (!bar) {
       bar = new progress('  [:bar] :percent :etas', {total: state.total, width: 40})
     }
@@ -307,6 +321,7 @@ function requestBinary(requestOptions, filePath) {
 
 
 function extractDownload(filePath) {
+  console.log("log func 5");
   var deferred = kew.defer()
   // extract to a unique directory in case multiple processes are
   // installing and extracting at once
@@ -346,6 +361,7 @@ function extractDownload(filePath) {
 
 
 function copyIntoPlace(extractedPath, targetPath) {
+  console.log("log func 6.0");
   console.log('Removing', targetPath)
   return kew.nfcall(rimraf, targetPath).then(function () {
     // Look for the extracted directory, so we can rename it.
@@ -362,6 +378,7 @@ function copyIntoPlace(extractedPath, targetPath) {
     throw new Error('Could not find extracted file')
   })
   .then(function () {
+    console.log("log func 6.1");
     // Cleanup extracted directory after it's been copied
     console.log('Removing', extractedPath)
     return kew.nfcall(rimraf, extractedPath).fail(function (e) {
