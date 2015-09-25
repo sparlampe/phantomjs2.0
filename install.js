@@ -106,7 +106,7 @@ whichDeferred.promise
 
     // Can't use a global version so start a download.
     if (fs.existsSync("/usr/bin/lsb_release")) {
-      cp.exec("lsb_release -d | gawk -F'\t' '{print $2}'", function(error, stdout, stderr) {
+      cp.exec("lsb_release -d | awk -F'\t' '{print $2}'", function(error, stdout, stderr) {
         if (stdout) {
           if (stdout.indexOf("Ubuntu 14") >= 0) {
             downloadUrl += 'u1404-x86_64.zip'
